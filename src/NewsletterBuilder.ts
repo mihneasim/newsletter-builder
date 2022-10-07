@@ -1,10 +1,10 @@
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 
-const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
+import { ArticleData } from './NewsletterArticle.js';
 
 export class NewsletterBuilder extends LitElement {
-  @property({ type: String }) title = 'My app';
+  @property({ type: String }) title = 'Awesome Newsletter';
 
   static styles = css`
     :host {
@@ -25,18 +25,8 @@ export class NewsletterBuilder extends LitElement {
       flex-grow: 1;
     }
 
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+    main > h1 {
+      font-size: calc(16px + 1vmin);
     }
 
     .app-footer {
@@ -50,30 +40,20 @@ export class NewsletterBuilder extends LitElement {
   `;
 
   render() {
+    const article: ArticleData = {
+      title: 'This was launched today',
+      caption:
+        'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+    };
+
     return html`
       <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
         <h1>${this.title}</h1>
 
-        <p>Edit <code>src/NewsletterBuilder.ts</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
+        <newsletter-article .data="${article}"></newsletter-article>
       </main>
-
       <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
+        newsletter built using <a href="https://lit.dev">lit.dev</a>
       </p>
     `;
   }
