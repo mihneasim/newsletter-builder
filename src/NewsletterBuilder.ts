@@ -15,9 +15,8 @@ export class NewsletterBuilder extends LitElement {
       justify-content: flex-start;
       font-size: calc(10px + 2vmin);
       color: #1a2b42;
-      max-width: 960px;
+      max-width: 600px;
       margin: 0 auto;
-      text-align: center;
       background-color: var(--newsletter-builder-background-color);
     }
 
@@ -40,17 +39,28 @@ export class NewsletterBuilder extends LitElement {
   `;
 
   render() {
-    const article: ArticleData = {
+    const someArticle: ArticleData = {
       title: 'This was launched today',
       caption:
         'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.',
+      metaTitle: "Today's top story",
+      callToAction: {
+        url: 'https://google.com',
+        title: 'Google it 🔎',
+      },
+      image: new URL('../../assets/article.jpg', import.meta.url).href,
     };
+
+    const articles = [someArticle, someArticle, someArticle];
 
     return html`
       <main>
         <h1>${this.title}</h1>
 
-        <newsletter-article .data="${article}"></newsletter-article>
+        ${articles.map(
+          article =>
+            html`<newsletter-article .data="${article}"></newsletter-article>`
+        )}
       </main>
       <p class="app-footer">
         newsletter built using <a href="https://lit.dev">lit.dev</a>
