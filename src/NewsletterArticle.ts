@@ -55,6 +55,20 @@ export class NewsletterArticle extends LitElement {
   `;
 
   render() {
+    const imageFetch = function (ev: Event, path: string | undefined) {
+      // Grab the data of the image and insert it in the DOM as base64 data
+      const image = ev.target as HTMLImageElement;
+      fetch(`assets/${path}`)
+        .then(response => response.blob())
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onload = function () {
+            image.src = (this.result || '') as string;
+          };
+          reader.readAsDataURL(blob);
+        });
+    };
+
     return html`
       <article>
         ${this.data.metaTitle
@@ -64,7 +78,11 @@ export class NewsletterArticle extends LitElement {
         <h2>${this.data.title}</h2>
 
         ${this.data.image
-          ? html`<img alt="" src="${this.data.image}" />`
+          ? html`<img
+              src="${this.data.image}"
+              alt=""
+              @error=${(e: Event) => imageFetch(e, this.data.image)}
+            />`
           : html``}
 
         <section>${this.data.caption}</section>
